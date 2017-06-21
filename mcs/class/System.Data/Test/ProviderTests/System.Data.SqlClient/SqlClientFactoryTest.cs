@@ -41,20 +41,21 @@ using System.Security;
 namespace MonoTests.System.Data.Connected.SqlClient
 {
 	[TestFixture]
-	[Category ("CAS")]
 	public class SqlClientFactoryTest
 	{
-#if !COREFX_NS
 		[Test]
 		public void CreatePermissionTest ()
 		{
-			SqlClientFactory factory = SqlClientFactory.Instance;
-			CodeAccessPermission permission, perm;
-			permission = factory.CreatePermission (PermissionState.None);
-			perm = factory.CreatePermission (PermissionState.Unrestricted);
-			Assert.AreEqual (false, perm.IsSubsetOf (permission), "#1");
+			using (var connection = new SqlConnection("server=192.168.0.106;database=testo;user id=sa;password=qwerty123"))
+			{
+				connection.Open();
+				var command = connection.CreateCommand();
+				command.CommandText = "select * from Table_1";
+				var reader = command.ExecuteReader();
+				while (reader.Read())
+					Console.WriteLine(reader[0].ToString());
+			}
 		}
-#endif
 	}
 }
 
