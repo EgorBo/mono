@@ -46,7 +46,18 @@ static partial class SR
 		return string.Format (CultureInfo.InvariantCulture, resourceFormat, p1, p2, p3);
 	}
 
-	internal static string GetResourceString (string str) => str;
+	internal static string GetResourceString (string str)
+	{
+		foreach (var field in typeof (SR).GetFields ())
+		{
+			if (field.Name == str)
+			{
+				return (string)field.GetValue (null);
+			}
+		}
+
+		return str;
+	}
 }
 
 #if !INSIDE_CORLIB

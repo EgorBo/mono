@@ -547,7 +547,8 @@ namespace System {
         comparer,
         comparable,
         exceptions,
-        exception
+        exception,
+        values
 #endif
     }
 
