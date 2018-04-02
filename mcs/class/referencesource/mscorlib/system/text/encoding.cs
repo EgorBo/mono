@@ -220,7 +220,7 @@ namespace System.Text
         }
 
         // This constructor is needed to allow any sub-classing implementation to provide encoder/decoder fallback objects 
-        // because the encoding object is always created as read-only object and don’t allow setting encoder/decoder fallback 
+        // because the encoding object is always created as read-only object and donâ€™t allow setting encoder/decoder fallback 
         // after the creation is done. 
         protected Encoding(int codePage, EncoderFallback encoderFallback, DecoderFallback decoderFallback)
         {
@@ -727,6 +727,8 @@ namespace System.Text
         {
             return EmptyArray<Byte>.Value;
         }
+
+        public virtual ReadOnlySpan<byte> Preamble => GetPreamble();
 
         private void GetDataItem() {
             if (dataItem==null) {

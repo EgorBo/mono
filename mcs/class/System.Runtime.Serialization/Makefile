@@ -9,9 +9,13 @@ LIB_REFS = System System.Xml System.Core System.ServiceModel.Internals
 LIB_MCS_FLAGS = \
 		-unsafe \
 		-d:NO_DYNAMIC_CODEGEN \
-		/nowarn:168,169,219,414,618,1634 \
+		-d:FEATURE_SERIALIZATION	\
+		/nowarn:168,169,219,414,618,1634,436,649 \
 		$(RESOURCE_FILES:%=/resource:%)
 TXT_RESOURCE_STRINGS = ../referencesource/System.Runtime.Serialization/System.Runtime.Serialization.txt
+RESX_RESOURCE_STRING = \
+	../../../external/corefx/src/System.Private.DataContractSerialization/src/Resources/Strings.resx	\
+	../../../external/corefx/src/System.Runtime.Serialization.Primitives/src/Resources/Strings.resx
 
 ifneq (2.1, $(FRAMEWORK_VERSION))
 LIB_REFS += System.Data System.Configuration SMDiagnostics
