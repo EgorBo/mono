@@ -123,9 +123,9 @@ namespace MonoTests.System.ComponentModel {
 		public void GetProperties ()
 		{
 			// documented to always return null
-			Assert.IsNull (cc.GetProperties (null), "null");
-			Assert.IsNull (cc.GetProperties (null, null), "null,null");
-			Assert.IsNull (cc.GetProperties (null, null, null), "null,null,null");
+			Assert.IsEmpty (cc.GetProperties (null), "null");
+			Assert.IsEmpty (cc.GetProperties (null, null), "null,null");
+			Assert.IsEmpty (cc.GetProperties (null, null, null), "null,null,null");
 		}
 
 		[Test]
