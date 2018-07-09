@@ -682,7 +682,7 @@ static int II = 0;
                 ulong multval = s_rgval64Power10By16[index + ((scale < 0) ? 21 : 0) - 1];
                 val = Mul64Lossy(val, multval, ref exp);
             }
-//Console.WriteLine($"val={val}, exp={exp}");
+Console.WriteLine($"bbb val={val}, exp={exp}");
 
 
             // round & scale down
