@@ -671,7 +671,6 @@ static int II = 0;
                 ulong multval = s_rgval64Power10[index + ((scale < 0) ? 15 : 0) - 1];
                 val = Mul64Lossy(val, multval, ref exp);
             }
-Console.WriteLine($"val={val}, exp={exp}");
 
             index = absscale >> 4;
             if (index != 0)
@@ -699,7 +698,6 @@ Console.WriteLine($"val={val}, exp={exp}");
                 }
                 val = tmp;
             }
-Console.WriteLine($"val={val}, exp={exp}");
 
             // return the exponent to a biased state
             exp += 0x3FE;
@@ -743,10 +741,9 @@ Console.WriteLine($"val={val}, exp={exp}");
             ulong gg = 9218868437227405282;
             double gdd = *(double*)&gg;
 
-            Console.WriteLine($"|_ {gg}={gdd}");
-            Console.WriteLine($"val={val}, exp={exp}");
+            Console.WriteLine($"|_ {gg}={gdd}   val={val}, exp={exp},  true? {gg == val}");
 
-            double dd =  BitConverter.Int64BitsToDouble((long)val);
+            double dd = BitConverter.Int64BitsToDouble((long)val);
             //double dd =  *(double*)&val;
             Console.WriteLine($"dd={dd}");
             return dd;
