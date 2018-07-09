@@ -297,6 +297,7 @@ namespace System
 
         public static bool IsNaNSymbol(string s, IFormatProvider provider)
         {
+            Console.WriteLine("ISNAN? " + s);
             NumberFormatInfo nfi = provider == null ? NumberFormatInfo.CurrentInfo : NumberFormatInfo.GetInstance(provider);
             return s.Equals(nfi.NaNSymbol);
         }
@@ -590,9 +591,12 @@ namespace System
             return value;
         }
 
+static readonly int II = 0;
+
         private static unsafe double NumberToDouble(ref NumberBuffer number)
         {
-            Console.WriteLine("_Entering NumberToDouble");
+            II++;
+            Console.WriteLine("_Entering NumberToDouble: " + II);
             ulong val;
             int exp;
             char* src = number.digits;
@@ -630,7 +634,7 @@ namespace System
                 val = Mul32x32To64((uint)val, mult) + DigitsToInt(src + 9, count);
             }
             scale = number.scale - (total - remaining);
-            Console.WriteLine($"total={total}, val={val}, count={count}, scale={scale}. sign={number.sign}");
+            Console.WriteLine($"total={total}, val={val}, count={count}, scale={scale}. sign={number.sign}, digits={new string(number.digits)}");
             absscale = abs(scale);
             if (absscale >= 22 * 16)
             {
