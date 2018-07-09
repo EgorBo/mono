@@ -998,7 +998,7 @@ corert/Decimal.DecCalc.cs
 ../../../external/corefx/src/Common/src/CoreLib/System/Number.NumberBuffer.cs
 ../../../external/corefx/src/Common/src/CoreLib/System/Number.Parsing.cs
 ../../../external/corert/src/System.Private.CoreLib/src/System/Number.Unix.cs
-../../../external/corert/src/System.Private.CoreLib/src/System/Number.CoreRT.cs
+corert/A.cs
 ../../../external/corert/src/Common/src/Interop/Unix/System.Private.CoreLib.Native/Interop.Number.cs
 
 ../referencesource/mscorlib/system/objectdisposedexception.cs
