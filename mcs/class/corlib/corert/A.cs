@@ -591,7 +591,7 @@ namespace System
             return value;
         }
 
-static readonly int II = 0;
+static int II = 0;
 
         private static unsafe double NumberToDouble(ref NumberBuffer number)
         {
