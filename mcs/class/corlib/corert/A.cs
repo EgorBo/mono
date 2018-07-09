@@ -742,7 +742,8 @@ Console.WriteLine($"val={val}, exp={exp}");
             Console.WriteLine($"|_ {gg}={gdd}");
             Console.WriteLine($"val={val}, exp={exp}");
 
-            double dd =  *(double*)&val;
+            double dd =  BitConverter.Int64BitsToDouble((long)val);
+            //double dd =  *(double*)&val;
             Console.WriteLine($"dd={dd}");
             return dd;
         }
