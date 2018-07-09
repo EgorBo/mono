@@ -1106,7 +1106,7 @@ namespace System {
 
         [System.Security.SecuritySafeCritical]  // auto-generated
         public static int ToInt32(decimal value) {
-            return Decimal.FCallToInt32(value);
+            return 0;//Decimal.FCallToInt32(value);
         }
 
         public static int ToInt32(String value) {
@@ -2472,7 +2472,7 @@ namespace System {
         [SecurityCritical]
         private static unsafe Int32 FromBase64_Decode(Char* startInputPtr, Int32 inputLength, Byte* startDestPtr, Int32 destLength) {
 
-            // You may find this method weird to look at. It’s written for performance, not aesthetics.
+            // You may find this method weird to look at. Itï¿½s written for performance, not aesthetics.
             // You will find unrolled loops label jumps and bit manipulations.
 
             const UInt32 intA =     (UInt32) 'A';            
