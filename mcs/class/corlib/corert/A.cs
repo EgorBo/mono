@@ -721,11 +721,13 @@ Console.WriteLine($"val={val}, exp={exp}");
             }
             else if (exp >= 0x7FF)
             {
+                Console.WriteLine("OVERFLOW!");
                 // overflow
                 val = 0x7FF0000000000000;
             }
             else
             {
+                Console.WriteLine("NORMAL!");
                 // normal postive exponent case
                 val = ((ulong)exp << 52) + ((val >> 11) & 0x000FFFFFFFFFFFFF);
             }
