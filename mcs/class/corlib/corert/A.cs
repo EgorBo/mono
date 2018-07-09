@@ -735,7 +735,13 @@ Console.WriteLine($"val={val}, exp={exp}");
             if (number.sign)
                 val |= 0x8000000000000000;
 
-Console.WriteLine($"val={val}, exp={exp}");
+
+            ulong gg = 9218868437227405282;
+            double gdd = *(double*)&gg;
+
+            Console.WriteLine($"|_ {gg}={gdd}");
+            Console.WriteLine($"val={val}, exp={exp}");
+            
             double dd =  *(double*)&val;
             Console.WriteLine($"dd={dd}");
             return dd;
