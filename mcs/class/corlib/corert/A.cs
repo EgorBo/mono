@@ -648,17 +648,17 @@ static int II = 0;
             exp = 64;
 
             // normalize the mantissa
-            if ((val & 0xFFFFFFFF00000000) == 0)
+            if ((val & 0xFFFFFFFF00000000LL) == 0)
             { val <<= 32; exp -= 32; }
-            if ((val & 0xFFFF000000000000) == 0)
+            if ((val & 0xFFFF000000000000LL) == 0)
             { val <<= 16; exp -= 16; }
-            if ((val & 0xFF00000000000000) == 0)
+            if ((val & 0xFF00000000000000LL) == 0)
             { val <<= 8; exp -= 8; }
-            if ((val & 0xF000000000000000) == 0)
+            if ((val & 0xF000000000000000LL) == 0)
             { val <<= 4; exp -= 4; }
-            if ((val & 0xC000000000000000) == 0)
+            if ((val & 0xC000000000000000LL) == 0)
             { val <<= 2; exp -= 2; }
-            if ((val & 0x8000000000000000) == 0)
+            if ((val & 0x8000000000000000LL) == 0)
             { val <<= 1; exp -= 1; }
 //Console.WriteLine($"val={val}, exp={exp}");
             index = absscale & 15;
@@ -693,7 +693,7 @@ static int II = 0;
                 if (tmp < val)
                 {
                     // overflow
-                    tmp = (tmp >> 1) | 0x8000000000000000;
+                    tmp = (tmp >> 1) | 0x8000000000000000LL;
                     exp += 1;
                 }
                 val = tmp;
@@ -705,10 +705,10 @@ static int II = 0;
             // handle overflow, underflow, "Epsilon - 1/2 Epsilon", denormalized, and the normal case
             if (exp <= 0)
             {
-                if (exp == -52 && (val >= 0x8000000000000058))
+                if (exp == -52 && (val >= 0x8000000000000058LL))
                 {
                     // round X where {Epsilon > X >= 2.470328229206232730000000E-324} up to Epsilon (instead of down to zero)
-                    val = 0x0000000000000001;
+                    val = 0x0000000000000001LL;
                 }
                 else if (exp <= -52)
                 {
@@ -725,17 +725,17 @@ static int II = 0;
             {
                 Console.WriteLine("OVERFLOW!");
                 // overflow
-                val = 0x7FF0000000000000;
+                val = 0x7FF0000000000000LL;
             }
             else
             {
                 //Console.WriteLine("NORMAL!");
                 // normal postive exponent case
-                val = ((ulong)exp << 52) + ((val >> 11) & 0x000FFFFFFFFFFFFF);
+                val = ((ulong)exp << 52) + ((val >> 11) & 0x000FFFFFFFFFFFFFLL);
             }
 
             if (number.sign)
-                val |= 0x8000000000000000;
+                val |= 0x8000000000000000LL;
 
 
             ulong gg = 9218868437227405282;
