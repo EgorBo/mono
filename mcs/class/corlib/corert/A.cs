@@ -630,7 +630,7 @@ namespace System
                 val = Mul32x32To64((uint)val, mult) + DigitsToInt(src + 9, count);
             }
             scale = number.scale - (total - remaining);
-            Console.WriteLine($"total={total}, val={val}, count={count}, scale={scale}");
+            Console.WriteLine($"total={total}, val={val}, count={count}, scale={scale}. sign={number.sign}");
             absscale = abs(scale);
             if (absscale >= 22 * 16)
             {
@@ -734,7 +734,9 @@ Console.WriteLine($"val={val}, exp={exp}");
                 val |= 0x8000000000000000;
 
 Console.WriteLine($"val={val}, exp={exp}");
-            return *(double*)&val;
+            double dd =  *(double*)&val;
+            Console.WriteLine($"dd={dd}");
+            return dd;
         }
     }
 }
