@@ -596,7 +596,7 @@ static int II = 0;
         private static unsafe double NumberToDouble(ref NumberBuffer number)
         {
             II++;
-            Console.WriteLine("_Entering NumberToDouble: " + II);
+            //Console.WriteLine("_Entering NumberToDouble: " + II);
             ulong val;
             int exp;
             char* src = number.digits;
@@ -634,7 +634,7 @@ static int II = 0;
                 val = Mul32x32To64((uint)val, mult) + DigitsToInt(src + 9, count);
             }
             scale = number.scale - (total - remaining);
-            Console.WriteLine($"total={total}, val={val}, count={count}, scale={scale}. sign={number.sign}, digits={new string(number.digits)}");
+            //Console.WriteLine($"total={total}, val={val}, count={count}, scale={scale}. sign={number.sign}, digits={new string(number.digits)}");
             absscale = abs(scale);
             if (absscale >= 22 * 16)
             {
@@ -682,7 +682,7 @@ static int II = 0;
                 ulong multval = s_rgval64Power10By16[index + ((scale < 0) ? 21 : 0) - 1];
                 val = Mul64Lossy(val, multval, ref exp);
             }
-Console.WriteLine($"bbb val={val}, exp={exp}");
+//Console.WriteLine($"bbb val={val}, exp={exp}");
 
 
             // round & scale down
@@ -741,7 +741,7 @@ Console.WriteLine($"bbb val={val}, exp={exp}");
             ulong gg = 9218868437227405282;
             double gdd = *(double*)&gg;
 
-            Console.WriteLine($"|_ {gg}={gdd}   val={val}, exp={exp},  true? {gg == val}");
+            //Console.WriteLine($"|_ {gg}={gdd}   val={val}, exp={exp},  true? {gg == val}");
 
             double dd = BitConverter.Int64BitsToDouble((long)val);
             //double dd =  *(double*)&val;
