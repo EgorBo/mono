@@ -656,7 +656,7 @@ namespace System
             { val <<= 2; exp -= 2; }
             if ((val & 0x8000000000000000) == 0)
             { val <<= 1; exp -= 1; }
-Console.WriteLine($"val={val}, exp={exp}");
+//Console.WriteLine($"val={val}, exp={exp}");
             index = absscale & 15;
             if (index != 0)
             {
@@ -679,7 +679,7 @@ Console.WriteLine($"val={val}, exp={exp}");
                 ulong multval = s_rgval64Power10By16[index + ((scale < 0) ? 21 : 0) - 1];
                 val = Mul64Lossy(val, multval, ref exp);
             }
-Console.WriteLine($"val={val}, exp={exp}");
+//Console.WriteLine($"val={val}, exp={exp}");
 
 
             // round & scale down
@@ -727,7 +727,7 @@ Console.WriteLine($"val={val}, exp={exp}");
             }
             else
             {
-                Console.WriteLine("NORMAL!");
+                //Console.WriteLine("NORMAL!");
                 // normal postive exponent case
                 val = ((ulong)exp << 52) + ((val >> 11) & 0x000FFFFFFFFFFFFF);
             }
@@ -741,7 +741,7 @@ Console.WriteLine($"val={val}, exp={exp}");
 
             Console.WriteLine($"|_ {gg}={gdd}");
             Console.WriteLine($"val={val}, exp={exp}");
-            
+
             double dd =  *(double*)&val;
             Console.WriteLine($"dd={dd}");
             return dd;
