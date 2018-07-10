@@ -150,6 +150,7 @@ namespace MonoTests.System
 		[SetCulture ("en-US")]
 		public void Parse ()
 		{
+			Console.WriteLine("PARSE: 0");
 			int i = 0;
 			try {
 				for (i = 0; i < string_values.Length; i++) {
@@ -159,11 +160,14 @@ namespace MonoTests.System
 				Assert.Fail ("#A2: i=" + i + " failed with e = " + e.ToString ());
 			}
 
+			Console.WriteLine("PARSE: 1");
+
 			try {
 				Assert.AreEqual (10.1111, Double.Parse (" 10.1111 ", NumberStyles.Float, Nfi), "#B1");
 			} catch (Exception e) {
 				Assert.Fail ("#B2: Parse Failed NumberStyles.Float with e = " + e.ToString ());
 			}
+			Console.WriteLine("PARSE: 2");
 
 			try {
 				Assert.AreEqual (1234.5678, Double.Parse ("1,234.5678", NumberStyles.Float | NumberStyles.AllowThousands, Nfi), "#C1");
@@ -171,6 +175,7 @@ namespace MonoTests.System
 				Assert.Fail ("#C2: Parse Failed NumberStyles.AllowThousands with e = " + e.ToString ());
 			}
 
+			Console.WriteLine("PARSE: 3");
 			try {
 				Double.Parse (null);
 				Assert.Fail ("#D1");
@@ -181,6 +186,7 @@ namespace MonoTests.System
 				Assert.IsNotNull (ex.ParamName, "#D5");
 			}
 
+			Console.WriteLine("PARSE: 4");
 			try {
 				Double.Parse ("save the elk");
 				Assert.Fail ("#E1");
@@ -190,6 +196,7 @@ namespace MonoTests.System
 				Assert.IsNotNull (ex.Message, "#E4");
 			}
 
+			Console.WriteLine("PARSE: 5");
 			string sep = NumberFormatInfo.CurrentInfo.NumberDecimalSeparator;
 			double ovf_plus = 0;
 			try {
@@ -201,6 +208,7 @@ namespace MonoTests.System
 				Assert.IsNotNull (ex.Message, "#F4");
 			}
 
+			Console.WriteLine("PARSE: 6");
 			try {
 				Double.Parse ("-1" + sep + "79769313486232e308");
 				Assert.Fail ("#G1");
@@ -210,6 +218,7 @@ namespace MonoTests.System
 				Assert.IsNotNull (ex.Message, "#G4");
 			}
 
+			Console.WriteLine("PARSE: 7");
 			for (i = 0; i < string_values_fail.Length; ++i) {
 				try {
 					Double.Parse (string_values_fail [i]);

@@ -16,7 +16,7 @@ namespace System
 
         private static unsafe void DoubleToNumber(double value, int precision, ref NumberBuffer number)
         {
-            Console.WriteLine("DoubleToNumber!");
+            //Console.WriteLine("DoubleToNumber!");
             Debug.Assert(precision > 0 && precision < 40);
 
             number.precision = precision;

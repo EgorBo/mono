@@ -297,7 +297,7 @@ namespace System
 
         public static bool IsNaNSymbol(string s, IFormatProvider provider)
         {
-            Console.WriteLine("ISNAN? " + s);
+            //Console.WriteLine("ISNAN? " + s);
             NumberFormatInfo nfi = provider == null ? NumberFormatInfo.CurrentInfo : NumberFormatInfo.GetInstance(provider);
             return s.Equals(nfi.NaNSymbol);
         }
@@ -723,7 +723,7 @@ static int II = 0;
             }
             else if (exp >= 0x7FF)
             {
-                Console.WriteLine("OVERFLOW!");
+                //Console.WriteLine("OVERFLOW!");
                 // overflow
                 val = 0x7FF0000000000000LL;
             }
@@ -745,7 +745,7 @@ static int II = 0;
 
             double dd = BitConverter.Int64BitsToDouble((long)val);
             //double dd =  *(double*)&val;
-            Console.WriteLine($"dd={dd}");
+            //Console.WriteLine($"dd={dd}");
             return dd;
         }
     }
