@@ -186,7 +186,12 @@ namespace System.Globalization
                 fixed (byte* pByteNum = s_pNumericValues)
                 {
                     double* pDouble = (double*)pByteNum;
-                    return pDouble[pBytePtr[(ch & 0x000f)]];
+                    double resultValue = pDouble[pBytePtr[(ch & 0x000f)]];
+                    
+                    if (!BitConverter.IsLittleEndian)
+                        resultValue = BitConverter.Int64BitsToDouble(BinaryPrimitives.ReverseEndianness(BitConverter.DoubleToInt64Bits(index)));
+
+                    return resultValue;
                 }
             }
         }
