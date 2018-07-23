@@ -914,8 +914,10 @@ ReferenceSources/Type.cs
 ../referencesource/mscorlib/system/buffer.cs
 ../../../external/corefx/src/Common/src/CoreLib/System/Byte.cs
 ../../../external/corefx/src/System.Runtime.Extensions/src/System/CannotUnloadAppDomainException.cs
-../../../external/corefx/src/Common/src/CoreLib/System/Char.cs
-../../../external/corefx/src/Common/src/CoreLib/System/CharEnumerator.cs
+../referencesource/mscorlib/system/char.cs
+../referencesource/mscorlib/system/charenumerator.cs
+#../../../external/corefx/src/Common/src/CoreLib/System/Char.cs
+#../../../external/corefx/src/Common/src/CoreLib/System/CharEnumerator.cs
 ../../../external/corefx/src/System.Console/src/System/ConsoleCancelEventArgs.cs
 ../../../external/corefx/src/System.Console/src/System/ConsoleColor.cs
 ../referencesource/mscorlib/system/consolekey.cs
@@ -1076,8 +1078,9 @@ ReferenceSources/AppContextDefaultValues.cs
 ../referencesource/mscorlib/system/globalization/CalendricalCalculationsHelper.cs
 ../referencesource/mscorlib/system/globalization/calendardata.cs
 ../referencesource/mscorlib/system/globalization/calendarweekrule.cs
-../../../external/corefx/src/Common/src/CoreLib/System/Globalization/CharUnicodeInfo.cs
-../../../external/corert/src/System.Private.CoreLib/src/System/Globalization/CharUnicodeInfoData.cs
+#../../../external/corefx/src/Common/src/CoreLib/System/Globalization/CharUnicodeInfo.cs
+#../../../external/corert/src/System.Private.CoreLib/src/System/Globalization/CharUnicodeInfoData.cs
+../referencesource/mscorlib/system/globalization/charunicodeinfo.cs
 ../referencesource/mscorlib/system/globalization/chineselunisolarcalendar.cs
 #../referencesource/mscorlib/system/globalization/compareinfo.cs
 ../referencesource/mscorlib/system/globalization/culturenotfoundexception.cs
