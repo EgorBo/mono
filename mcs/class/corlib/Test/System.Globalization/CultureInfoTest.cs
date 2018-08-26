@@ -156,6 +156,22 @@ namespace MonoTests.System.Globalization
 		}
 
 		[Test]
+		public void Bug9490_ArSa_DayNames_NotEmpty() // https://github.com/mono/mono/issues/9490
+		{
+			string[] expected = {
+				"الأحد",
+				"الإثنين",
+				"الثلاثاء",
+				"الأربعاء",
+				"الخميس",
+				"الجمعة",
+				"السبت"
+			};
+			var ci = new CultureInfo("ar-SA");
+			CollectionAssert.AreEqual (expected, ci.DateTimeFormat.DayNames);
+		}
+
+		[Test]
 		public void CreateSpecificCulture ()
 		{
 			var ci = CultureInfo.CreateSpecificCulture ("en");

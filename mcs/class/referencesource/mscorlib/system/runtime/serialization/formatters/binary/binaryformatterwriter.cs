@@ -143,9 +143,9 @@ namespace System.Runtime.Serialization.Formatters.Binary {
         internal void WriteDateTime(DateTime value)
         {
 #if MONO
-            WriteInt64(value.ToBinaryRaw());
-#else
             WriteInt64(value.Ticks);
+#else
+            WriteInt64(value.ToBinaryRaw());
 #endif
         }
 
