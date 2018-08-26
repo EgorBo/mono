@@ -142,7 +142,11 @@ namespace System.Runtime.Serialization.Formatters.Binary {
 
         internal void WriteDateTime(DateTime value)
         {
+#if MONO
             WriteInt64(value.ToBinaryRaw());
+#else
+            WriteInt64(value.Ticks);
+#endif
         }
 
         internal void WriteUInt16(UInt16 value)

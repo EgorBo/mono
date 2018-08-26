@@ -506,7 +506,7 @@ public class CalendarTest {
 	public void TestErasProperty2() {
 		Assert.AreEqual(1, clcal.Eras.Length, "cn");
 		Assert.AreEqual(1, tlcal.Eras.Length, "tw");
-		Assert.AreEqual(2, jlcal.Eras.Length, "jp");
+		Assert.AreEqual(3, jlcal.Eras.Length, "jp");
 		Assert.AreEqual(1, klcal.Eras.Length, "kr");
 
 		Assert.AreEqual(4, jlcal.Eras [0], "jp.1");

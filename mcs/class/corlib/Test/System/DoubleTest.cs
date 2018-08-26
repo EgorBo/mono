@@ -264,7 +264,7 @@ namespace MonoTests.System
 		{
 			double value;
 			IFormatProvider german = new CultureInfo ("de-DE");
-			var res = double.Parse ("+unendlich", NumberStyles.Float, german);
+			var res = double.Parse ("∞", NumberStyles.Float, german);
 			Assert.AreEqual (double.PositiveInfinity, res);
 		}
 

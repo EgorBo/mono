@@ -174,7 +174,7 @@ namespace MonoTests.System.IO
 				FileSystemInfo info = new FileInfo (path);
 				
 				DateTime time = TimeZone.CurrentTimeZone.ToUniversalTime(info.CreationTime);
-				Assert.AreEqual (1601, time.Year, "#A1");
+				Assert.AreEqual (1600, time.Year, "#A1");
 				Assert.AreEqual (1, time.Month, "#A2");
 				Assert.AreEqual (1, time.Day, "#A3");
 				Assert.AreEqual (0, time.Hour, "#A4");
@@ -185,7 +185,7 @@ namespace MonoTests.System.IO
 				info = new DirectoryInfo (path);
 				
 				time = TimeZone.CurrentTimeZone.ToUniversalTime(info.CreationTime);
-				Assert.AreEqual (1601, time.Year, "#B1");
+				Assert.AreEqual (1600, time.Year, "#B1");
 				Assert.AreEqual (1, time.Month, "#B2");
 				Assert.AreEqual (1, time.Day, "#B3");
 				Assert.AreEqual (0, time.Hour, "#B4");
@@ -222,7 +222,7 @@ namespace MonoTests.System.IO
 				FileSystemInfo info = new FileInfo (path);
 				DateTime time = TimeZone.CurrentTimeZone.ToUniversalTime(info.LastAccessTime);
 
-				Assert.AreEqual (1601, time.Year, "#1");
+				Assert.AreEqual (1600, time.Year, "#1");
 				Assert.AreEqual (1, time.Month, "#2");
 				Assert.AreEqual (1, time.Day, "#3");
 				Assert.AreEqual (0, time.Hour, "#4");
@@ -287,7 +287,7 @@ namespace MonoTests.System.IO
 				FileSystemInfo info = new DirectoryInfo (path);
 				DateTime time = TimeZone.CurrentTimeZone.ToUniversalTime(info.LastWriteTime);
 
-				Assert.AreEqual (1601, time.Year, "#1");
+				Assert.AreEqual (1600, time.Year, "#1");
 				Assert.AreEqual (1, time.Month, "#2");
 				Assert.AreEqual (1, time.Day, "#3");
 				Assert.AreEqual (0, time.Hour, "#4");

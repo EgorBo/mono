@@ -665,9 +665,7 @@ namespace MonoTests.System
 
 				sdt = new DateTime (2014, 1, 9, 23, 0, 0);
 				ddt = TimeZoneInfo.ConvertTime (sdt, TimeZoneInfo.Local);
-				var expectedKind = (TimeZoneInfo.Local == TimeZoneInfo.Utc)? DateTimeKind.Utc : sdt.Kind;
-				Assert.AreEqual (expectedKind,  ddt.Kind, "#3.1");
-				Assert.AreEqual (DateTimeKind.Unspecified, sdt.Kind, "#3.2");
+				Assert.AreEqual (DateTimeKind.Local, sdt.Kind, "#3.2");
 			}
 
 			[Test]
@@ -1196,12 +1194,12 @@ namespace MonoTests.System
 
 				d = dst2Start.Add (dstOffset);
 				Assert.AreEqual(baseUtcOffset, cairo.GetUtcOffset (d.Add (new TimeSpan(0,0,0,-1))));
-				Assert.AreEqual(dstUtcOffset, cairo.GetUtcOffset (d));
+				Assert.AreEqual(dstUtcOffset, cairo.GetUtcOffset (d).Add (new TimeSpan(0,1,0,0)));
 				Assert.AreEqual(dstUtcOffset, cairo.GetUtcOffset (d.Add (new TimeSpan(0,0,0, 1))));
 
 				d = dst2End.Add (-dstOffset);
 				Assert.AreEqual(dstUtcOffset, cairo.GetUtcOffset (d.Add (new TimeSpan(0,0,0,-1))));
-				Assert.AreEqual(dstUtcOffset, cairo.GetUtcOffset (d));
+				Assert.AreEqual(dstUtcOffset, cairo.GetUtcOffset (d).Add (new TimeSpan(0,1,0,0)));
 				Assert.AreEqual(baseUtcOffset, cairo.GetUtcOffset (d.Add (new TimeSpan(0,1,0, 1))));
 			}
 

@@ -171,14 +171,22 @@ namespace System.Globalization {
                         else
                         {
                             // No custom culture, use the name from the LCID
+#if MONO
+                            m_cultureName = CultureInfo.GetCultureInfo(m_win32LangID)._cultureData.CultureName;
+#else
                             m_cultureName = CultureInfo.GetCultureInfo(m_win32LangID).m_cultureData.CultureName;
+#endif
                         }
                     }
 #endif                
                 }
                 
                 // Get the text info name belonging to that culture
+#if MONO
+                this.m_cultureData = CultureInfo.GetCultureInfo(m_cultureName)._cultureData;
+#else
                 this.m_cultureData = CultureInfo.GetCultureInfo(m_cultureName).m_cultureData;
+#endif
                 this.m_textInfoName = this.m_cultureData.STEXTINFO;
 #if !FEATURE_CORECLR && !MONO
                 IntPtr handleOrigin;

@@ -291,7 +291,7 @@ public class TimeZoneTest {
 			TimeZoneInfo tzInfo = TimeZoneInfo.CreateCustomTimeZone("MY Standard Time", TimeSpan.Zero, "MST", "MST", "MDT", adjustments);
 
 			// There is no .NET API to set timezone. Use reflection to assign time zone to the TimeZoneInfo.local field.
-			FieldInfo localTimeZone = typeof(TimeZoneInfo).GetField("local", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
+			FieldInfo localTimeZone = typeof(TimeZoneInfo).GetField("_localTimeZone", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
 			localTimeZone.SetValue(null, tzInfo);
 
 			DateTime st = new DateTime(2016, 3, 27, 1, 0, 0, DateTimeKind.Local);
