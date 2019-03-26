@@ -61,6 +61,7 @@ System.Runtime.CompilerServices.Unsafe.Tests_PROFILE = netstandard-Debug
 System.Runtime.Tests_PROFILE = netcoreapp-Unix-Debug
 System.Runtime.Tests_XUNIT_ARGS = @../excludes-System.Runtime.Tests.rsp
 System.Collections.Tests_PROFILE = netcoreapp-Debug
+System.Threading.Thread.Tests_PROFILE = netcoreapp-Debug
 System.Reflection.Emit.Tests_PROFILE = netcoreapp-Debug
 System.Reflection.Emit.Tests_XUNIT_ARGS = @../excludes-System.Reflection.Emit.Tests.rsp
 System.Reflection.Emit.ILGeneration.Tests_PROFILE = netcoreapp-Debug
@@ -84,13 +85,20 @@ check: $(addprefix run-, $(TEST_SUITES))
 clean:
 	rm -rf sdk shared host dotnet tests LICENSE.txt ThirdPartyNotices.txt $(NETCORESDK_FILE)
 
+COREFX_TESTHOST=$(COREFX_BINDIR)/testhost/netcoreapp-OSX-Debug-x64/shared/Microsoft.NETCore.App/9.9.9/
+
 xtest-%: prepare check-env
-	ln -sf $(CURDIR)/$(SHAREDRUNTIME)/System.Globalization.Native.dylib \
-		$(COREFX_BINDIR)/testhost/netcoreapp-OSX-Debug-x64/shared/Microsoft.NETCore.App/9.9.9/
-	COMPlus_DebugWriteToStdErr=1 ./dotnet --fx-version "$(VERSION)" \
-		$(COREFX_BINDIR)/testhost/netcoreapp-OSX-Debug-x64/shared/Microsoft.NETCore.App/9.9.9/xunit.console.dll \
+	ln -sf $(CURDIR)/$(SHAREDRUNTIME)/System.Globalization.Native.dylib $(COREFX_TESTHOST)
+	sed -e 's/9.9.9/$(VERSION)/g' < $(COREFX_BINDIR)/$*/$($*_PROFILE)/RemoteExecutorConsoleApp.runtimeconfig.json > 2 && mv 2 $(COREFX_BINDIR)/$*/$($*_PROFILE)/RemoteExecutorConsoleApp.runtimeconfig.json
+	cp $(COREFX_TESTHOST)/CoreFx.Private.TestUtilities.dll $(COREFX_BINDIR)/$*/$($*_PROFILE)/
+	cp $(COREFX_TESTHOST)/xunit* $(COREFX_BINDIR)/$*/$($*_PROFILE)/
+	cd $(COREFX_BINDIR)/$*/$($*_PROFILE) && COMPlus_DebugWriteToStdErr=1 MONO_ENV_OPTIONS="-O=-inline" $(CURDIR)/./dotnet --fx-version "$(VERSION)" $(COREFX_TESTHOST)xunit.console.dll \
 		$(COREFX_BINDIR)/$*/$($*_PROFILE)/$*.dll -notrait category=outerloop -notrait category=nonosxtests -notrait category=failing \
 		-notrait category=nonnetcoreapptests -noappdomain -noshadow -parallel all -nunit TestResult-$*-netcore-xunit.xml \
 		$(shell grep -v '^#\|^$$' excludes-$*.rsp) $(FIXTURE)
+
+# build CoreFX tests, e.g.: `make corefx-System.Runtime`
+corefx-%: check-env
+	cd $(COREFX_ROOT)/src/$*/tests && dotnet build
 
 xtest-all: $(addprefix xtest-, $(TEST_SUITES))
