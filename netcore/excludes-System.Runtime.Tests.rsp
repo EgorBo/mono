@@ -52,14 +52,6 @@
 # `private new T Foo` doesn't hide members from Type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static)
 -nomethod System.Reflection.Tests.TypeTests_HiddenTestingOrder.HideDetectionHappensBeforeBindingFlagChecks
 
-# remove once CoreFX gets https://github.com/dotnet/coreclr/pull/24279
--nomethod System.Tests.TimeSpanTests.FromMilliseconds
--nomethod System.Tests.TimeSpanTests.FromMilliseconds_Invalid
--nomethod System.Tests.TimeSpanTests.Multiplication
--nomethod System.Tests.TimeSpanTests.NamedMultiplication
--nomethod System.Tests.TimeSpanTests.Division
--nomethod System.Tests.TimeSpanTests.NamedDivision
-
 # TODO: ignore in CoreFX for mono runtime:
 -nomethod System.Reflection.Tests.PointerTests.*
 -nomethod System.Tests.StringTests.NormalizationTest
