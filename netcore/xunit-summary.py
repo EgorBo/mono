@@ -18,13 +18,15 @@ class TestResults():
         self.skipped = skipped
         self.time = time
 
+print("")
+
 tests = []
 for testfile in glob.glob(test_dir + "/*-xunit.xml"):
     assemblies = ET.parse(testfile).getroot()
     for assembly in assemblies:
         test_name = assembly.attrib.get("name")
         if test_name is None:
-            print("WARNING: %s has no tests!", ntpath.basename(testfile))
+            print("WARNING: %s has no tests!" % ntpath.basename(testfile))
             continue
         tests.append(TestResults(test_name, 
             int(assembly.attrib["total"]), 
