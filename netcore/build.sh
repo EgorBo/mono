@@ -86,9 +86,9 @@ done
 CPU_COUNT=$(getconf _NPROCESSORS_ONLN || echo 4)
 
 # run .././autogen.sh only once or if "--rebuild" argument is provided
-if [[ "$force_rebuild" == "true" || ! -f .configured ]]; then
-  cd .. && ./autogen.sh --with-core=only
-  touch .configured
+if [[ "$force_rebuild" == "true" || ! -f ../.configured ]]; then
+  (cd .. && ./autogen.sh --with-core=only)
+  touch ../.configured
 fi
 
 # build mono runtime
