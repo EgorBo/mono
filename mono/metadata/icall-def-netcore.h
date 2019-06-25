@@ -53,6 +53,7 @@ HANDLES(ARRAY_10, "GetValueImpl",    ves_icall_System_Array_GetValueImpl, MonoOb
 NOHANDLES(ICALL(ARRAY_11, "SetGenericValueImpl", ves_icall_System_Array_SetGenericValueImpl))
 HANDLES(ARRAY_12, "SetValue",         ves_icall_System_Array_SetValue, void, 3, (MonoArray, MonoObject, MonoArray))
 HANDLES(ARRAY_13, "SetValueImpl",  ves_icall_System_Array_SetValueImpl, void, 3, (MonoArray, MonoObject, guint32))
+HANDLES(ARRAY_14, "SetValueRelaxedImpl",  ves_icall_System_Array_SetValueRelaxedImpl, void, 3, (MonoArray, MonoObject, guint32))
 
 ICALL_TYPE(BUFFER, "System.Buffer", BUFFER_1)
 ICALL(BUFFER_1, "_ByteLength", ves_icall_System_Buffer_ByteLengthInternal)

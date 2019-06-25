@@ -176,6 +176,7 @@
 -nomethod System.Tests.StringTests.NormalizationTest
 
 # Hits Debug.Assert in debug configuration for floating point precision on round-tripping
+# https://github.com/dotnet/coreclr/pull/25096
 -nomethod System.Buffers.Text.Tests.RealFormatterTests.TestFormatterDouble_C20
 -nomethod System.Buffers.Text.Tests.RealFormatterTests.TestFormatterSingle_C20
 -nomethod System.Buffers.Text.Tests.RealFormatterTests.TestFormatterSingle_N20
@@ -184,6 +185,15 @@
 -nomethod System.Buffers.Text.Tests.RealFormatterTests.TestFormatterDouble_F20
 -nomethod System.Buffers.Text.Tests.RealFormatterTests.TestFormatterDouble_P20
 -nomethod System.Buffers.Text.Tests.RealFormatterTests.TestFormatterSingle_F20
+-nomethod System.Tests.RealFormatterTests.*
+
+# requires corefx test updates
+-nomethod System.Tests.StringTests.SameSpanToLower
+-nomethod System.Tests.StringTests.ToLowerOverlapping
+-nomethod System.Tests.StringTests.SameSpanToUpper
+-nomethod System.Tests.StringTests.ToUpperOverlapping
+
+-nomethod System.Tests.SByteTests.Parse_Invalid
 
 -nomethod System.SpanTests.SpanTests.ReadOnlyMemory_PropertyReturningReadOnlySpan
 -nomethod System.SpanTests.SpanTests.Span_StaticOperator
