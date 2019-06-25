@@ -140,7 +140,10 @@ namespace System
 				dst_type = Enum.GetUnderlyingType (dst_type);
 
 			if (reliable) {
-				if (!dst_type.Equals (src_type)) {
+				if (!dst_type.Equals (src_type) || 
+					!dst_type.IsPrimitive || 
+					!src_type.IsPrimitive || 
+					!CanChangePrimitive (dst_type, src_type, true)) {
 					throw new ArrayTypeMismatchException (SR.ArrayTypeMismatch_CantAssignType);
 				}
 			} else {
@@ -157,7 +160,7 @@ namespace System
 						throw new InvalidCastException ();
 
 					try {
-						destinationArray.SetValueImpl (srcval, dest_pos + i);
+						destinationArray.SetValueRelaxedImpl (srcval, dest_pos + i);
 					} catch (ArgumentException) {
 						throw CreateArrayTypeMismatchException ();
 					}
@@ -167,7 +170,7 @@ namespace System
 					Object srcval = sourceArray.GetValueImpl (source_pos + i);
 
 					try {
-						destinationArray.SetValueImpl (srcval, dest_pos + i);
+						destinationArray.SetValueRelaxedImpl (srcval, dest_pos + i);
 					} catch (ArgumentException) {
 						throw CreateArrayTypeMismatchException ();
 					}
@@ -201,12 +204,8 @@ namespace System
 					return true;
 				} else if (source.IsPrimitive && target.IsPrimitive) {
 					
-					// Special case: normally C# doesn't allow implicit ushort->char cast).
-					if (source == typeof (ushort) && target == typeof (char))
-						return true;
-					
 					// Allow primitive type widening
-					return DefaultBinder.CanChangePrimitive (source, target);
+					return CanChangePrimitive (source, target, true);
 				} else if (!source.IsValueType && !source.IsPointer) {
 					// Source is base class or interface of destination type
 					if (target.IsPointer)
@@ -504,6 +503,10 @@ namespace System
 		[MethodImplAttribute (MethodImplOptions.InternalCall)]
 		extern void SetValueImpl (object? value, int pos);
 
+		// CAUTION! No bounds checking!
+		[MethodImplAttribute (MethodImplOptions.InternalCall)]
+		extern void SetValueRelaxedImpl (object? value, int pos);
+
 		/*
 		 * These methods are used to implement the implicit generic interfaces 
 		 * implemented by arrays in NET 2.0.
@@ -602,6 +605,57 @@ namespace System
 			}
 
 			SetGenericValueImpl (index, ref item);
+		}
+
+		[Flags]
+		private enum Primitives
+		{
+			Boolean = 1 << TypeCode.Boolean,
+			Char = 1 << TypeCode.Char,
+			SByte = 1 << TypeCode.SByte,
+			Byte = 1 << TypeCode.Byte,
+			Int16 = 1 << TypeCode.Int16,
+			UInt16 = 1 << TypeCode.UInt16,
+			Int32 = 1 << TypeCode.Int32,
+			UInt32 = 1 << TypeCode.UInt32,
+			Int64 = 1 << TypeCode.Int64,
+			UInt64 = 1 << TypeCode.UInt64,
+			Single = 1 << TypeCode.Single,
+			Double = 1 << TypeCode.Double,
+			Decimal = 1 << TypeCode.Decimal,
+			DateTime = 1 << TypeCode.DateTime,
+			String = 1 << TypeCode.String,
+		}
+
+		static readonly Primitives [] s_primitiveConversionsRelaxed = {
+			/* Empty    */  0, // not primitive
+			/* Object   */  0, // not primitive
+			/* DBNull   */  0, // not primitive
+			/* Boolean  */  Primitives.Boolean,
+			/* Char     */  Primitives.Char    | Primitives.UInt16 | Primitives.UInt32 | Primitives.Int32  | Primitives.UInt64 | Primitives.Int64  | Primitives.Single |  Primitives.Double,
+			/* SByte    */  Primitives.SByte   | Primitives.Byte   | Primitives.Int16  | Primitives.Int32  | Primitives.Int64  | Primitives.Single | Primitives.Double,
+			/* Byte     */  Primitives.Byte    | Primitives.SByte  | Primitives.Char   | Primitives.UInt16 | Primitives.Int16  | Primitives.UInt32 | Primitives.Int32  | Primitives.UInt64 |  Primitives.Int64 |  Primitives.Single |  Primitives.Double,
+			/* Int16    */  Primitives.Int16   | Primitives.UInt16 | Primitives.Int32  | Primitives.Int64  | Primitives.Single | Primitives.Double,
+			/* UInt16   */  Primitives.UInt16  | Primitives.Int16  | Primitives.Char   | Primitives.UInt32 | Primitives.Int32  | Primitives.UInt64 | Primitives.Int64  | Primitives.Single | Primitives.Double,
+			/* Int32    */  Primitives.Int32   | Primitives.UInt32 | Primitives.Int64  | Primitives.Single | Primitives.Double,
+			/* UInt32   */  Primitives.UInt32  | Primitives.Int32  | Primitives.UInt64 | Primitives.Int64  | Primitives.Single | Primitives.Double,
+			/* Int64    */  Primitives.Int64   | Primitives.UInt64 | Primitives.Single | Primitives.Double,
+			/* UInt64   */  Primitives.UInt64  | Primitives.Int64  | Primitives.Single | Primitives.Double,
+			/* Single   */  Primitives.Single  | Primitives.Double,
+			/* Double   */  Primitives.Double,
+			/* Decimal  */  Primitives.Decimal,
+			/* DateTime */  Primitives.DateTime,
+			/* [Unused] */  0,
+			/* String   */  Primitives.String,
+		};
+
+		// CanChangePrimitive
+		// This will determine if the source can be converted to the target type
+		internal static bool CanChangePrimitive (Type? source, Type? target, bool relaxed = false)
+		{
+			Primitives widerCodes = s_primitiveConversionsRelaxed [(int) (Type.GetTypeCode (source))];
+			Primitives targetCode = (Primitives) (1 << (int) (Type.GetTypeCode (target)));
+			return (widerCodes & targetCode) != 0;
 		}
 	}
 }

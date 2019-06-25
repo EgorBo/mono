@@ -154,7 +154,7 @@ icallarray_print (const char *format, ...)
 static GENERATE_GET_CLASS_WITH_CACHE (module, "System.Reflection", "Module")
 
 static void
-array_set_value_impl (MonoArrayHandle arr, MonoObjectHandle value, guint32 pos, gboolean strict, MonoError *error);
+array_set_value_impl (MonoArrayHandle arr, MonoObjectHandle value, guint32 pos, gboolean strict, gboolean relaxed_widening, MonoError *error);
 
 static MonoArrayHandle
 type_array_from_modifiers (MonoImage *image, MonoType *type, int optional, MonoError *error);
@@ -269,8 +269,16 @@ ves_icall_System_Array_GetValue (MonoArrayHandle arr, MonoArrayHandle indices, M
 void
 ves_icall_System_Array_SetValueImpl (MonoArrayHandle arr, MonoObjectHandle value, guint32 pos, MonoError *error)
 {
-	array_set_value_impl (arr, value, pos, FALSE, error);
+	array_set_value_impl (arr, value, pos, FALSE, FALSE, error);
 }
+
+#if ENABLE_NETCORE
+void
+ves_icall_System_Array_SetValueRelaxedImpl (MonoArrayHandle arr, MonoObjectHandle value, guint32 pos, MonoError *error)
+{
+	array_set_value_impl (arr, value, pos, FALSE, TRUE, error);
+}
+#endif
 
 static inline void
 set_invalid_cast (MonoError *error, MonoClass *src_class, MonoClass *dst_class)
@@ -280,7 +288,7 @@ set_invalid_cast (MonoError *error, MonoClass *src_class, MonoClass *dst_class)
 }
 
 static void
-array_set_value_impl (MonoArrayHandle arr_handle, MonoObjectHandle value_handle, guint32 pos, gboolean strict, MonoError *error)
+array_set_value_impl (MonoArrayHandle arr_handle, MonoObjectHandle value_handle, guint32 pos, gboolean strict, gboolean relaxed_widening, MonoError *error)
 {
 	MonoClass *ac, *vc, *ec;
 	gint32 esize, vsize;
@@ -461,6 +469,13 @@ array_set_value_impl (MonoArrayHandle arr_handle, MonoObjectHandle value_handle,
 	case MONO_TYPE_I2: \
 	case MONO_TYPE_I4: \
 	case MONO_TYPE_I8: \
+		if (relaxed_widening) { \
+			CHECK_WIDENING_CONVERSION(0); \
+			*(etype *) ea = (etype) i64; \
+		} else { \
+			NO_WIDENING_CONVERSION; \
+		} \
+		break; \
 	/* You can't assign a floating point number to an integer array. */ \
 	case MONO_TYPE_R4: \
 	case MONO_TYPE_R8: \
@@ -488,7 +503,7 @@ array_set_value_impl (MonoArrayHandle arr_handle, MonoObjectHandle value_handle,
 	case MONO_TYPE_U4: \
 	case MONO_TYPE_U8: \
 	case MONO_TYPE_CHAR: \
-		CHECK_WIDENING_CONVERSION(1); \
+		CHECK_WIDENING_CONVERSION(relaxed_widening ? 0 : 1); \
 		*(etype *) ea = (etype) u64; \
 		break; \
 	/* You can't assign a floating point number to an integer array. */ \
@@ -688,7 +703,7 @@ ves_icall_System_Array_SetValue (MonoArrayHandle arr, MonoObjectHandle value,
 			return;
 		}
 
-		array_set_value_impl (arr, value, idx, TRUE, error);
+		array_set_value_impl (arr, value, idx, TRUE, FALSE, error);
 		return;
 	}
 	
@@ -712,7 +727,7 @@ ves_icall_System_Array_SetValue (MonoArrayHandle arr, MonoObjectHandle value,
 		pos = pos * dim.length + idx - dim.lower_bound;
 	}
 
-	array_set_value_impl (arr, value, pos, TRUE, error);
+	array_set_value_impl (arr, value, pos, TRUE, FALSE, error);
 }
 
 MonoArrayHandle
