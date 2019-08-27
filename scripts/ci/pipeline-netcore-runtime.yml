@@ -71,16 +71,17 @@ stages:
           displayName: 'Rewrite .gitmodules'
           condition: and(succeeded(), ne(variables['System.TeamProject'], 'public'), ne(variables['Build.Reason'], 'PullRequest'))
 
+        # TODO: we need a separate pipeline with --llvm (I guess we can make a generic template)
         - bash: |
             cd netcore
-            ./build.sh -c $(_BuildConfig)
+            ./build.sh -c $(_BuildConfig) --llvm
           displayName: 'Build (Make)'
 
         - bash: |
-            make -C netcore nupkg
+            make -C netcore nupkg-llvm
             rm -f ./artifacts/Microsoft.NETCore.Runtime.Mono*nupkg
             mkdir -p ./artifacts/log/$(_BuildConfig)
-          displayName: 'Build nupkg'
+          displayName: 'Build nupkg-llvm'
 
         - bash: |
             make -C netcore run-tests-corefx USE_TIMEOUT=1
