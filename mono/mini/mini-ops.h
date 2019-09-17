@@ -1401,7 +1401,6 @@ MINI_OP(OP_LZCNT64, "lzcnt64", LREG, LREG, NONE)
 MINI_OP(OP_POPCNT32, "popcnt32", IREG, IREG, NONE)
 MINI_OP(OP_POPCNT64, "popcnt64", LREG, LREG, NONE)
 
-
 /* Count trailing zeroes, return 32/64 if the input is 0 */
 MINI_OP(OP_CTTZ32, "cttz32", IREG, IREG, NONE)
 MINI_OP(OP_CTTZ64, "cttz64", LREG, LREG, NONE)

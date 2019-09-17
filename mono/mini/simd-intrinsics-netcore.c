@@ -588,11 +588,8 @@ emit_x86_intrinsics (MonoCompile *cfg, MonoMethod *cmethod, MonoMethodSignature 
 
 		supported = (get_cpu_features () & MONO_CPU_X86_SSE) != 0;
 		
-		if (id == -1)
-			return NULL;
-			
 		// Vector128<float> Method (Vector128<float>, Vector128<float>)
-		if (fsig->param_count == 2 /*TODO: check param types*/) {
+		if (supported && fsig->param_count == 2 /*TODO: check param types*/) {
 			int opcode = 0;
 			if (id == SN_Add)
 				opcode = OP_ADDPS;
