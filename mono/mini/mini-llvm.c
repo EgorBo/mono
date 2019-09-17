@@ -1002,8 +1002,6 @@ simd_op_to_intrins (int opcode)
 		return "llvm.x86.sse2.min.pd";
 	case OP_MINPS:
 		return "llvm.x86.sse.min.ps";
-	case OP_ADDPS:
-		return "llvm.x86.sse.add.ss";
 	case OP_MAXPD:
 		return "llvm.x86.sse2.max.pd";
 	case OP_MAXPS:

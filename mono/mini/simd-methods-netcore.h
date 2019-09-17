@@ -1,5 +1,7 @@
 METHOD2(".ctor", ctor)
 METHOD(Add)
+METHOD(And)
+METHOD(AndNot)
 METHOD(CopyTo)
 METHOD(Equals)
 METHOD(GreaterThan)

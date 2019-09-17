@@ -543,6 +543,8 @@ emit_sys_numerics_vector_t (MonoCompile *cfg, MonoMethod *cmethod, MonoMethodSig
 
 static guint16 sse_methods [] = {
 	SN_Add,
+	SN_And,
+	SN_AndNot,
 	SN_get_IsSupported
 };
 
@@ -588,17 +590,31 @@ emit_x86_intrinsics (MonoCompile *cfg, MonoMethod *cmethod, MonoMethodSignature 
 		
 		if (id == -1)
 			return NULL;
+			
+		// Vector128<float> Method (Vector128<float>, Vector128<float>)
+		if (fsig->param_count == 2 /*TODO: check param types*/) {
+			int opcode = 0;
+			if (id == SN_Add)
+				opcode = OP_ADDPS;
+			else if (id == SN_And)
+				opcode = OP_ANDPS;
+			else if (id == SN_AndNot)
+				opcode = OP_ANDNPS;
+			
+			if (opcode) {
+				MONO_INST_NEW (cfg, ins, opcode);
+				ins->dreg = alloc_ireg (cfg);
+				ins->sreg1 = args [0]->dreg;
+				ins->sreg2 = args [1]->dreg;
+				MONO_ADD_INS (cfg->cbb, ins);
+				return ins;
+			}
+		}
+
 		switch (id) {
 		case SN_get_IsSupported:
 			EMIT_NEW_ICONST (cfg, ins, 0); // most methods are not implemented yet 
 			ins->type = STACK_I4;
-			return ins;
-		case SN_Add:
-			MONO_INST_NEW (cfg, ins, OP_ADDPS);
-			ins->dreg = alloc_ireg (cfg);
-			ins->sreg1 = args [0]->dreg;
-			ins->sreg2 = args [1]->dreg;
-			MONO_ADD_INS (cfg->cbb, ins);
 			return ins;
 		}
 	}

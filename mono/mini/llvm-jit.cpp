@@ -502,7 +502,8 @@ mono_llvm_get_cpu_features (void)
 			/*
 			for (auto &F : HostFeatures)
 				if (F.second)
-					outs () << "X: " << F.first () << "\n";*/
+					outs () << "X: " << F.first () << "\n";
+			*/
 			
 		}
 		f |= MONO_CPU_INITED;
