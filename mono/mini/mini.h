@@ -2800,6 +2800,13 @@ typedef enum {
 	MONO_CPU_X86_AVX = 1 << 3,
 	MONO_CPU_X86_BMI1 = 1 << 4,
 	MONO_CPU_X86_BMI2 = 1 << 5,
+	MONO_CPU_X86_SSE = 1 << 6,
+	MONO_CPU_X86_SSE2 = 1 << 7,
+	MONO_CPU_X86_SSE3 = 1 << 8,
+	MONO_CPU_X86_SSSE3 = 1 << 9,
+	MONO_CPU_X86_SSE41 = 1 << 10,
+	MONO_CPU_X86_SSE42 = 1 << 11,
+	MONO_CPU_X86_AVX2 = 1 << 12,
 #endif
 } MonoCPUFeatures;
 

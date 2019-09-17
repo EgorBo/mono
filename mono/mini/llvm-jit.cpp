@@ -480,15 +480,30 @@ mono_llvm_get_cpu_features (void)
 				f |= MONO_CPU_X86_LZCNT;
 			if (HostFeatures ["avx"])
 				f |= MONO_CPU_X86_AVX;
+			if (HostFeatures ["avx2"])
+				f |= MONO_CPU_X86_AVX2;
 			if (HostFeatures ["bmi"])
 				f |= MONO_CPU_X86_BMI1;
 			if (HostFeatures ["bmi2"])
 				f |= MONO_CPU_X86_BMI2;
+			if (HostFeatures ["sse"])
+				f |= MONO_CPU_X86_SSE;
+			if (HostFeatures ["sse2"])
+				f |= MONO_CPU_X86_SSE2;
+			if (HostFeatures ["sse3"])
+				f |= MONO_CPU_X86_SSE3;
+			if (HostFeatures ["ssse3"])
+				f |= MONO_CPU_X86_SSSE3;
+			if (HostFeatures ["sse4.1"])
+				f |= MONO_CPU_X86_SSE41;
+			if (HostFeatures ["sse4.2"])
+				f |= MONO_CPU_X86_SSE42;
+			
 			/*
 			for (auto &F : HostFeatures)
 				if (F.second)
-					outs () << "X: " << F.first () << "\n";
-			*/
+					outs () << "X: " << F.first () << "\n";*/
+			
 		}
 		f |= MONO_CPU_INITED;
 		mono_memory_barrier ();

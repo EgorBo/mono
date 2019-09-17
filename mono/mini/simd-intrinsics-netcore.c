@@ -541,6 +541,11 @@ emit_sys_numerics_vector_t (MonoCompile *cfg, MonoMethod *cmethod, MonoMethodSig
 
 #ifdef TARGET_AMD64
 
+static guint16 sse_methods [] = {
+	SN_Add,
+	SN_get_IsSupported
+};
+
 static guint16 popcnt_methods [] = {
 	SN_PopCount,
 	SN_get_IsSupported
@@ -574,6 +579,29 @@ emit_x86_intrinsics (MonoCompile *cfg, MonoMethod *cmethod, MonoMethodSignature 
 
 	class_ns = m_class_get_name_space (klass);
 	class_name = m_class_get_name (klass);
+	if (!strcmp (class_name, "Sse")) {
+		id = lookup_intrins (sse_methods, sizeof (sse_methods), cmethod);
+		if (id == -1)
+			return NULL;
+
+		supported = (get_cpu_features () & MONO_CPU_X86_SSE) != 0;
+		
+		if (id == -1)
+			return NULL;
+		switch (id) {
+		case SN_get_IsSupported:
+			EMIT_NEW_ICONST (cfg, ins, 0); // most methods are not implemented yet 
+			ins->type = STACK_I4;
+			return ins;
+		case SN_Add:
+			MONO_INST_NEW (cfg, ins, OP_ADDPS);
+			ins->dreg = alloc_ireg (cfg);
+			ins->sreg1 = args [0]->dreg;
+			ins->sreg2 = args [1]->dreg;
+			MONO_ADD_INS (cfg->cbb, ins);
+			return ins;
+		}
+	}
 	if (!strcmp (class_name, "Popcnt") || (!strcmp (class_name, "X64") && cmethod->klass->nested_in && !strcmp (m_class_get_name (cmethod->klass->nested_in), "Popcnt"))) {
 		id = lookup_intrins (popcnt_methods, sizeof (popcnt_methods), cmethod);
 		if (id == -1)
